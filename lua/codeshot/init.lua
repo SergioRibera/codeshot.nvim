@@ -51,4 +51,11 @@ function codeshot.focus_selected_lines()
   codeshot.take(curr, '..', hi_lines)
 end
 
+function codeshot.setup(opts)
+  option.set(opts)
+
+  vim.api.nvim_create_user_command('SSFocused', codeshot.focus_selected_lines)
+  vim.api.nvim_create_user_command('SSSelected', codeshot.focus_selected_lines)
+end
+
 return codeshot
