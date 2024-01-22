@@ -1,19 +1,15 @@
 {
-  description = "Neovim Nix flake CI template for GitHub Actions"; # TODO: Set description
+  description = "Plugin to take Amazing screenshots of your Code";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
-
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
     };
-
     neorocks = {
       url = "github:nvim-neorocks/neorocks";
     };
-
     neodev-nvim = {
       url = "github:folke/neodev.nvim";
       flake = false;
@@ -29,8 +25,7 @@
     neodev-nvim,
     ...
   }: let
-    name = "plugin-template.nvim"; # TODO: Choose a name
-
+    name = "codeshot.nvim";
     plugin-overlay = import ./nix/plugin-overlay.nix {
       inherit name self;
     };
@@ -83,7 +78,6 @@
                       library =
                         nvim-api
                         ++ [
-                          # TODO: Add lua API dependencies here, e.g.
                           # "${pkgs.lua51Packages.fzy}/share/lua/5.1"
                           # "${pkgs.vimPlugins.telescope-nvim}/lua"
                         ]
@@ -139,7 +133,7 @@
         };
 
         devShell = pkgs.nvim-nightly-tests.overrideAttrs (oa: {
-          name = "devShell"; # TODO: Choose a name
+          name = "devShell";
           inherit (pre-commit-check) shellHook;
           buildInputs = with pre-commit-hooks.packages.${system};
             [
@@ -148,7 +142,7 @@
               stylua
               luacheck
               editorconfig-checker
-              markdownlint-cli
+              # markdownlint-cli
             ]
             ++ oa.buildInputs;
         });

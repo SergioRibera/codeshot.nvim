@@ -3,13 +3,11 @@
   self,
 }: final: prev: let
   packageOverrides = luaself: luaprev: {
-    # TODO: Rename
-    plugin-template-nvim = luaself.callPackage ({buildLuarocksPackage}:
+    codeshot-nvim = luaself.callPackage ({buildLuarocksPackage}:
       buildLuarocksPackage {
         pname = name;
         version = "scm-1";
-        # TODO: Set rockspec name
-        knownRockspec = "${self}/plugin-template.nvim-scm-1.rockspec";
+        knownRockspec = "${self}/codeshot.nvim-scm-1.rockspec";
         src = self;
       }) {};
   };
@@ -19,8 +17,7 @@
   };
   lua51Packages = final.lua5_1.pkgs;
 
-  # TODO: Rename
-  nvim-plugin = final.neovimUtils.buildNeovimPlugin {
+  codeshot-nvim-plugin = final.neovimUtils.buildNeovimPlugin {
     pname = name;
     src = self;
     version = "dev";
@@ -34,6 +31,6 @@ in {
   vimPlugins =
     prev.vimPlugins
     // {
-      inherit nvim-plugin;
+      inherit codeshot-nvim-plugin;
     };
 }

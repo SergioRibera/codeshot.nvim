@@ -1,11 +1,6 @@
--- NOTE: This rockspec is used for running busted tests only,
--- not for publishing to LuaRocks.org
-
--- TODO: Rename this file
-
 local _MODREV, _SPECREV = 'scm', '-1'
 rockspec_format = '3.0'
-package = 'plugin-template.nvim' -- TODO: Set name
+package = 'codeshot.nvim'
 version = _MODREV .. _SPECREV
 
 dependencies = {
@@ -17,17 +12,17 @@ test_dependencies = {
 }
 
 source = {
-  -- TODO: Replace <user>
-  url = 'git://github.com/<user>/' .. package,
+  url = 'git://github.com/SergioRibera/' .. package,
 }
 
 build = {
   type = 'builtin',
   -- TODO: Add runtime diretories here
-  -- copy_directories = {
+  copy_directories = {
+    'lua'
       -- 'doc',
       -- "plugin",
-  -- },
+  },
 }
 
 
