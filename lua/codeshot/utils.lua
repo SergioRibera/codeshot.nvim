@@ -29,4 +29,12 @@ function utils.obj_to_args(obj, ignores)
   return res
 end
 
+function utils.validate(from, to)
+  for k, v in pairs(to) do
+    if type(v) ~= type(from[k]) then
+      error("Validation failed: for '" .. k .. "' we expected a value of type: '" .. type(from[k]) .. "'")
+    end
+  end
+end
+
 return utils

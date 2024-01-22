@@ -6,11 +6,19 @@ _G.codeshot_settings = {}
 
 local function run_sss_code(codeshot_options, opts)
   local extra_args = vim.tbl_extend('force', codeshot_options, opts)
+  local theme = {}
+
+  if codeshot_options.use_current_theme then
+    theme = { vim_theme = theme.get() }
+  end
+
   local cmd = vim.tbl_extend(
     'keep',
     { opts.bin_path },
-    utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input' }),
-    { '-', opts.file }
+    utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input', 'use_current_theme' }),
+    utils.obj_to_args(theme),
+    -- TODO: support load code lines or file
+    { opts.file }
   )
   vim.system(cmd, {})
 end
@@ -37,6 +45,7 @@ function codeshot.focus_selected_lines()
   local curr = vim.fn.expand('%:p')
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
+  -- Calculate len of lines
   -- local n_lines = math.abs(s_end[2] - s_start[2]) + 1
   local hi_lines = s_start .. '..' .. s_end
   codeshot.take(curr, '..', hi_lines)
