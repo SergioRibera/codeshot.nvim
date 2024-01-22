@@ -6,6 +6,7 @@ _G.codeshot_settings = {}
 
 local function run_sss_code(codeshot_options, opts)
   local extra_args = vim.tbl_extend('force', codeshot_options, opts)
+  local output = { output = utils.replace_placeholders(extra_args.output) }
   local theme = {}
 
   if codeshot_options.use_current_theme then
@@ -17,6 +18,7 @@ local function run_sss_code(codeshot_options, opts)
     { opts.bin_path },
     utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input', 'use_current_theme' }),
     utils.obj_to_args(theme),
+    utils.obj_to_args(output),
     -- TODO: support load code lines or file
     { opts.file }
   )

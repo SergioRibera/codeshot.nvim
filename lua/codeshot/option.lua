@@ -25,7 +25,7 @@ local defaults = {
   author = '',
   author_color = '#FFFFFF',
   window_title = '',
-  window_title_background = '#4287f5',
+  window_title_background = '',
   window_title_color = '#FFFFFF',
   window_controls_width = 120,
   window_controls_height = 40,
@@ -35,6 +35,7 @@ local defaults = {
   shadow_color = '#707070',
   shadow_blur = 50,
   save_format = 'png',
+  output = 'CodeShot_${year}-${month}-${date}_${time}.png',
 }
 
 function option.set(opts)

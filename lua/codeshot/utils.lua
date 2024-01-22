@@ -37,4 +37,12 @@ function utils.validate(from, to)
   end
 end
 
+function utils.replace_placeholders(str)
+  return str
+    :gsub('${time}', string.format('%s%s%s', os.date('%H'), os.date('%M'), os.date('%S')))
+    :gsub('${year}', os.date('%Y'))
+    :gsub('${month}', os.date('%m'))
+    :gsub('${date}', os.date('%d'))
+end
+
 return utils
