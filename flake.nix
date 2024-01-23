@@ -128,7 +128,7 @@
             stylua.enable = true;
             luacheck.enable = true;
             editorconfig-checker.enable = true;
-            markdownlint.enable = true;
+            # markdownlint.enable = true;
           };
         };
 
