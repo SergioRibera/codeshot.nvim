@@ -1,59 +1,110 @@
-# An opinionated Neovim Lua plugin template with a Nix CI
+# codeshot.nvim
 
-![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
-![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
-![Nix](https://img.shields.io/badge/nix-0175C2?style=for-the-badge&logo=NixOS&logoColor=white)
+**CodeShot** allows you to take screenshots of your code in
+a very nice format and integrated in neovim
 
-This repository is a template for Neovim plugins written in Lua.
+![out](https://github.com/SergioRibera/sss/assets/56278796/be74cd48-8f87-4544-98da-c7bc119753ab)
 
 ## Features
 
-- GitHub Actions workflows with a locally reproducible CI,
-using [`nix` flakes](https://nixos.wiki/wiki/Flakes).
-- Run tests with both neovim stable and neovim nightly
-  using [`neorocksTest`](https://github.com/nvim-neorocks/neorocks).
-- Lints and a nix shell with pre-commit-hooks:
-  - [`luacheck`](https://github.com/mpeterv/luacheck)
-  - [`stylua`](https://github.com/JohnnyMorganz/StyLua)
-  - [`lua-language-server` static type checks](https://github.com/LuaLS/lua-language-server/wiki/Diagnosis-Report)
-  - [`alejandra`](https://github.com/kamadorueda/alejandra)
-  - [`editorconfig-checker`](https://github.com/editorconfig-checker/editorconfig-checker)
-  - [`markdownlint`](https://github.com/DavidAnson/markdownlint)
-- `vimPlugin` nix flake output.
-- Automatically publish tags to [LuaRocks](https://luarocks.org/labels/neovim)
-with the [luarocks-tag-release action](https://github.com/nvim-neorocks/luarocks-tag-release).
-- Automatic release PRs using [conventional commits](https://conventionalcommits.org/)
-  with [release-please](https://github.com/googleapis/release-please).
-- Automatically comment PRs with a review checklist.
+- **Blazing Fast!!** because it internally uses a tool to generate the images,
+  this binary is blazing fast (Written in Rust)
+- **beautiful** images of source code, saved to preferred place.
+- **Highly Customizable**
+- **copy** to clipboard
 
-## Setup
+## Requirements
 
-1. Click on [Use this template](https://github.com/MrcJkb/nvim-lua-nix-plugin-template/generate)
-to start a repo based on this template. **Do _not_ fork it**.
-1. If your plugin depends on other plugins,
-add them to [`nvim-wrapped` in the `ci-overlay.nix`](./nix/ci-overlay.nix).
-1. Add the name of your plugin to [`flake.nix`](./flake.nix).
-1. Add [`busted`](https://lunarmodules.github.io/busted/) specs
-to the `tests` directory.
-1. Create a [LuaRocks API key](https://luarocks.org/settings/api-keys).
-1. Add the API key to the repository's
-[GitHub Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
-1. Text that needs to be updated is marked with `TODO:` comments.
-1. Rename [`plugin-template.nvim-scm-1.rockspec`](./plugin-template.nvim-scm-1.rockspec).
-1. Delete the content of [CHANGELOG.md](./CHANGELOG.md).
+- Neovim >= 0.6.0
+- [sss_code](https://github.com/SergioRibera/sss/tree/main/crates/sss_code)
 
-## Contributing
+## 📦 Installation
 
-All contributions are welcome!
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+Install the plugin with your preferred package manager:
 
-## License
+### [packer](https://github.com/wbthomason/packer.nvim)
 
-This template is [licensed according to GPL version 2](./LICENSE),
-with the following exception:
+```lua
+-- Lua
+use {
+  "SergioRibera/codeshot.nvim",
+  config = function()
+    require('codeshot').setup({})
+  end
+}
+```
 
-The license applies only to the Nix CI infrastructure provided by this template
-repository, including any modifications made to the infrastructure.
-Any software that uses or is derived from this template may be licensed under any
-[OSI approved open source license](https://opensource.org/licenses/),
-without being subject to the GPL version 2 license of this template.
+### [vim-plug](https://github.com/junegunn/vim-plug)
+
+```vim
+" Vim Script
+Plug 'SergioRibera/codeshot.nvim'
+
+lua require('codeshot').setup({})
+```
+
+## ⚙️ Configuratioon
+
+> [!IMPORTANT]
+> If you have specific doubts about any configuration,
+> you can check more details in the [`sss_code`](https://github.com/SergioRibera/sss/tree/main/crates/sss_code) repository.
+
+silicon comes with the following defaults:
+
+```lua
+codeshot.setup {
+  bin_path = 'sss_code', -- This may be required in case you have not added the binary to the $PATH
+  copy = false, -- Copy the generated image to the clipboard once generated (Has problems in Wayland)
+  window_controls = false, --
+  shadow = false, -- Enable Shadow
+  shadow_image = false, -- Generate shadow from code theme
+  show_line_numbers = true, -- Enable line numbers
+  use_current_theme = true, -- Allows you to generate a screenshot taking the current neovim theme you have
+  theme = '', -- Theme file to use. May be a path, or an embedded theme
+  extra_syntaxes = '', -- Additional folder to search for .sublime-syntax files in
+  tab_width = vim.opt.shiftwidth,
+  fonts = vim.opt.guifont:replace(':h', '='):replace(':', '='), -- Lists of fonts to use
+  background = '#323232', -- Background of image
+  radius = 15, -- Rounded radius of code
+  author = '', -- Leave your mark, add your name to the picture
+  author_color = '#FFFFFF',
+  window_title = '', -- The title that the code will have at the top next to the window controls
+  window_title_background = '', -- The color for the window controls bar, if you leave it empty it will take the background of the theme
+  window_title_color = '#FFFFFF',
+  window_controls_width = 120, -- The maximum width for window controls
+  window_controls_height = 40, -- The maximum Height for window controls
+  titlebar_padding = 10, -- Text separation with window controls
+  padding_x = 80, -- The x padding of the code with the image border
+  padding_y = 100, -- The y padding of the code with the image border
+  shadow_color = '#707070', -- Color for the shadow
+  shadow_blur = 50, -- The level of blurring to be applied to the shadow
+  save_format = 'png', -- The format in which the image will be saved [default: png]
+  output = "CodeShot_${year}-${month}-${date}_${time}.png", -- Auto generate file name based on time (absolute or relative to cwd)
+}
+```
+
+# Usage
+
+## Keymaps
+
+**Using commands**
+```lua
+-- Take screenshot just of selected lines
+vim.keymap.set('v', '<Leader>s',  ":SSSelected" )
+-- Take screenshot of file and highlight selected lines
+vim.keymap.set('v', '<Leader>s',  ":SSFocused" )
+```
+**Call Lua Functions**
+```lua
+-- Take screenshot of file and highlight selected lines
+codeshot.focus_selected_lines()
+-- Take screenshot just of selected lines
+codeshot.selected_lines()
+-- It captures the current file but receives as parameters a value for the lines to capture and the lines to highlight.
+-- lines, hi_lines: range of lines in `start..end` format
+codeshot.current(lines, hi_lines)
+-- It takes a capture of the file we pass it and receives as parameters a value for the lines to capture and the lines to highlight.
+-- file: is a path to file
+-- lines, hi_lines: range of lines in `start..end` format
+codeshot.take(file, lines, hi_lines)
+```
