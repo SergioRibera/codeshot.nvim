@@ -153,8 +153,8 @@
         };
 
         packages = rec {
-          default = nvim-plugin;
-          inherit (pkgs.vimPlugins) nvim-plugin;
+          default = codeshot-nvim-plugin;
+          inherit (pkgs.vimPlugins) codeshot-nvim-plugin;
           inherit (pkgs) docgen;
         };
 
