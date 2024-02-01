@@ -19,7 +19,7 @@ local defaults = {
   use_current_theme = true,
 
   -- Lib Configs
-  fonts = vim.opt.guifont:replace(':h', '='):replace(':', '='),
+  fonts = vim.opt.guifont and vim.opt.guifont:replace(':h', '='):replace(':', '=') or '',
   background = '#323232',
   radius = 15,
   author = '',
