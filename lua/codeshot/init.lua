@@ -25,32 +25,35 @@ local function run_sss_code(codeshot_options, opts)
   vim.system(cmd, {})
 end
 
-function codeshot.take(file, lines, hi_lines)
+function codeshot.take(file, extension, lines, hi_lines)
   local opts = option.get()
-  run_sss_code(opts, { file = file, lines = lines, hi_lines = hi_lines })
+  run_sss_code(opts, { file = file, extension = extension, lines = lines, hi_lines = hi_lines })
 end
 
 function codeshot.current(lines, hi_lines)
   local curr = vim.fn.expand('%:p')
-  codeshot.take(curr, lines, hi_lines)
+  local extension = vim.fn.expand('%:e')
+  codeshot.take(curr, extension, lines, hi_lines)
 end
 
 function codeshot.selected_lines()
   local curr = vim.fn.expand('%:p')
+  local extension = vim.fn.expand('%:e')
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
   local lines = s_start .. '..' .. s_end
-  codeshot.take(curr, lines, lines)
+  codeshot.take(curr, extension, lines, lines)
 end
 
 function codeshot.focus_selected_lines()
   local curr = vim.fn.expand('%:p')
+  local extension = vim.fn.expand('%:e')
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
   -- Calculate len of lines
   -- local n_lines = math.abs(s_end[2] - s_start[2]) + 1
   local hi_lines = s_start .. '..' .. s_end
-  codeshot.take(curr, '..', hi_lines)
+  codeshot.take(curr, extension, '..', hi_lines)
 end
 
 function codeshot.setup(opts)
