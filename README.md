@@ -54,7 +54,9 @@ silicon comes with the following defaults:
 ```lua
 codeshot.setup {
   bin_path = 'sss_code', -- This may be required in case you have not added the binary to the $PATH
-  copy = false, -- Copy the generated image to the clipboard once generated (Has problems in Wayland)
+  -- %c = is a sss_code command generated
+  copy = "%c", -- Format of custom command to run and copy output raw
+  silent = true, -- Run command as Silent
   window_controls = false, --
   shadow = false, -- Enable Shadow
   shadow_image = false, -- Generate shadow from code theme
