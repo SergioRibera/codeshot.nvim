@@ -55,6 +55,7 @@ silicon comes with the following defaults:
 codeshot.setup {
   bin_path = 'sss_code', -- This may be required in case you have not added the binary to the $PATH
   -- %c = is a sss_code command generated
+  -- Example to copy on wayland: "%c | wl-copy"
   copy = "%c", -- Format of custom command to run and copy output raw
   silent = true, -- Run command as Silent
   window_controls = false, --
