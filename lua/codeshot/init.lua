@@ -14,21 +14,27 @@ local function run_sss_code(codeshot_options, opts)
     curr_theme = { vim_theme = theme.get() }
   end
 
-  local cmd = vim.tbl_extend(
-    'keep',
-    { opts.bin_path },
-    utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input', 'use_current_theme' }),
-    utils.obj_to_args(curr_theme),
-    utils.obj_to_args(output),
+  local cmd = table.concat({
+    codeshot_options.bin_path,
+    table.concat(
+      utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input', 'use_current_theme', 'output' }),
+      ' '
+    ),
+    table.concat(utils.obj_to_args(curr_theme), ' '),
+    table.concat(utils.obj_to_args(output), ' '),
     -- TODO: support load code lines or file
-    { opts.file }
-  )
-  vim.system(cmd, {})
+    opts.file,
+  }, ' ')
+  cmd = cmd:gsub('#', '\\#')
+
+  vim.notify(cmd)
+
+  vim.cmd { cmd = '!', args = { cmd } }
 end
 
 function codeshot.take(file, extension, lines, hi_lines)
   local opts = option.get()
-  run_sss_code(opts, { file = file, extension = extension, lines = lines, hi_lines = hi_lines })
+  run_sss_code(opts, { file = file, extension = extension, lines = lines, highlight_lines = hi_lines })
 end
 
 function codeshot.current(lines, hi_lines)
@@ -60,8 +66,8 @@ end
 function codeshot.setup(opts)
   option.set(opts)
 
-  vim.api.nvim_create_user_command('SSFocused', codeshot.focus_selected_lines)
-  vim.api.nvim_create_user_command('SSSelected', codeshot.focus_selected_lines)
+  vim.api.nvim_create_user_command('SSFocused', codeshot.focus_selected_lines, {})
+  vim.api.nvim_create_user_command('SSSelected', codeshot.focus_selected_lines, {})
 end
 
 return codeshot

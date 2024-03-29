@@ -15,11 +15,11 @@ local defaults = {
   show_line_numbers = true,
   theme = '',
   extra_syntaxes = '',
-  tab_width = vim.opt.shiftwidth,
+  tab_width = vim.opt.shiftwidth._value,
   use_current_theme = true,
 
   -- Lib Configs
-  fonts = vim.opt.guifont and vim.opt.guifont:replace(':h', '='):replace(':', '=') or '',
+  fonts = vim.opt.guifont._value and vim.opt.guifont._value:gsub(':h', '='):gsub(':', '=') or '',
   background = '#323232',
   radius = 15,
   author = '',
