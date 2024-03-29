@@ -46,8 +46,8 @@ end
 function codeshot.selected_lines()
   local curr = vim.fn.expand('%:p')
   local extension = vim.fn.expand('%:e')
-  local s_start = vim.fn.getpos("'<")
-  local s_end = vim.fn.getpos("'>")
+  local s_start = vim.fn.getpos("'<")[2]
+  local s_end = vim.fn.getpos("'>")[2]
   local lines = s_start .. '..' .. s_end
   codeshot.take(curr, extension, lines, lines)
 end
@@ -55,8 +55,8 @@ end
 function codeshot.focus_selected_lines()
   local curr = vim.fn.expand('%:p')
   local extension = vim.fn.expand('%:e')
-  local s_start = vim.fn.getpos("'<")
-  local s_end = vim.fn.getpos("'>")
+  local s_start = vim.fn.getpos("'<")[2]
+  local s_end = vim.fn.getpos("'>")[2]
   -- Calculate len of lines
   -- local n_lines = math.abs(s_end[2] - s_start[2]) + 1
   local hi_lines = s_start .. '..' .. s_end
@@ -66,8 +66,8 @@ end
 function codeshot.setup(opts)
   option.set(opts)
 
-  vim.api.nvim_create_user_command('SSFocused', codeshot.focus_selected_lines, {})
-  vim.api.nvim_create_user_command('SSSelected', codeshot.focus_selected_lines, {})
+  vim.api.nvim_create_user_command('SSFocused', codeshot.focus_selected_lines, { range = true })
+  vim.api.nvim_create_user_command('SSSelected', codeshot.selected_lines, { range = true })
 end
 
 return codeshot
