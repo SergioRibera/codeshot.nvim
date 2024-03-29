@@ -7,29 +7,47 @@ _G.codeshot_settings = {}
 
 local function run_sss_code(codeshot_options, opts)
   local extra_args = vim.tbl_extend('force', codeshot_options, opts)
-  local output = { output = utils.replace_placeholders(extra_args.output) }
+  local output = utils.replace_placeholders(extra_args.output)
   local curr_theme = {}
 
   if codeshot_options.use_current_theme then
     curr_theme = { vim_theme = theme.get() }
   end
 
+  local copy = false
+
+  if type(codeshot_options.copy) == 'string' and codeshot_options.copy ~= "%c" then
+    copy = codeshot_options.copy
+    output = 'raw'
+  end
+
   local cmd = table.concat({
     codeshot_options.bin_path,
     table.concat(
-      utils.obj_to_args(extra_args, { 'bin_path', 'file', 'raw_input', 'use_current_theme', 'output' }),
+      utils.obj_to_args(
+        extra_args,
+        { 'bin_path', 'file', 'raw_input', 'use_current_theme', 'output', 'copy', 'silent' }
+      ),
       ' '
     ),
     table.concat(utils.obj_to_args(curr_theme), ' '),
-    table.concat(utils.obj_to_args(output), ' '),
+    table.concat(utils.obj_to_args { output = output }, ' '),
     -- TODO: support load code lines or file
     opts.file,
   }, ' ')
   cmd = cmd:gsub('#', '\\#')
 
-  vim.notify(cmd)
+  if copy then
+    cmd = copy:gsub('%%c', cmd)
+  end
 
-  vim.cmd { cmd = '!', args = { cmd } }
+  if codeshot_options.silent then
+    vim.cmd('silent !' .. cmd)
+  else
+    vim.cmd { cmd = '!', args = { cmd } }
+  end
+
+  -- vim.fn.execute({ '!' .. cmd }, codeshot_options.silent and 'silent!' or '')
 end
 
 function codeshot.take(file, extension, lines, hi_lines)
