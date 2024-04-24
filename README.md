@@ -5,6 +5,11 @@ a very nice format and integrated in neovim
 
 ![out](https://github.com/SergioRibera/sss/assets/56278796/be74cd48-8f87-4544-98da-c7bc119753ab)
 
+> [!IMPORTANT]
+> This repository does not require constant updates but if you have any problems or feature suggestions open an [issue](https://github.com/SergioRibera/cmp-dotenv/issues) and I will be happy to check it out.
+> 
+> This project is basically a wrapper for the [sss_code](https://github.com/SergioRibera/sss/tree/main/crates/sss_code) terminal tool, as soon as the settings of that tool change, this plugin will be updated, in the meantime if you have any problems or suggestions, I will be happy to review your issue.
+
 ## Features
 
 - **Blazing Fast!!** because it internally uses a tool to generate the images,
