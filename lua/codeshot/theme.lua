@@ -22,7 +22,7 @@ end
 --- @param hl_name string hig group name
 --- @return table highlight object value
 function theme._hl(hl_name)
-  local h = vim.api.nvim_get_hl_by_name(hl_name, true)
+  local h = vim.api.nvim_get_hl(0, { name = hl_name })
   return theme._gen_hl(h)
 end
 
@@ -54,7 +54,10 @@ function theme._theme_obj()
   local res = {}
 
   for _, g in ipairs(groups) do
-    res[g] = theme._hl(g)
+    local exists = vim.fn.hlexists(g)
+    if exists or exists == 1 then
+      res[g] = theme._hl(g)
+    end
   end
 
   return res
