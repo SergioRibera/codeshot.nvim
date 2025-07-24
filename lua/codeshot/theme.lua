@@ -37,7 +37,6 @@ function theme._theme_obj()
     'SpellBad',
     'Title',
     'MatchParen',
-    'IndentBlanklineChar',
     'Number',
     'Character',
     'String',
