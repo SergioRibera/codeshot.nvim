@@ -16,7 +16,7 @@ local function run_sss_code(codeshot_options, opts)
 
   local copy = false
 
-  if type(codeshot_options.copy) == 'string' and codeshot_options.copy ~= "%c" then
+  if type(codeshot_options.copy) == 'string' and codeshot_options.copy ~= '%c' then
     copy = codeshot_options.copy
     output = 'raw'
   end

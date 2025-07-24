@@ -6,7 +6,7 @@ local defaults = {
   bin_path = 'sss_code',
 
   -- Screenshot flags
-  copy = "%c",
+  copy = '%c',
   silent = true,
   window_controls = false,
   shadow = false,
