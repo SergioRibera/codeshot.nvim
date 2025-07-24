@@ -21,12 +21,17 @@ local function run_sss_code(codeshot_options, opts)
     output = 'raw'
   end
 
+  if codeshot_options.filename_as_window_title then
+    local filename = vim.fn.expand('%:t')
+    extra_args.window_title = filename
+  end
+
   local cmd = table.concat({
     codeshot_options.bin_path,
     table.concat(
       utils.obj_to_args(
         extra_args,
-        { 'bin_path', 'file', 'raw_input', 'use_current_theme', 'output', 'copy', 'silent' }
+        { 'bin_path', 'file', 'raw_input', 'use_current_theme', 'output', 'copy', 'silent', 'filename_as_window_title' }
       ),
       ' '
     ),
@@ -64,20 +69,26 @@ end
 function codeshot.selected_lines()
   local curr = vim.fn.expand('%:p')
   local extension = vim.fn.expand('%:e')
+
+  vim.cmd([[execute "normal! \<ESC>"]])
   local s_start = vim.fn.getpos("'<")[2]
   local s_end = vim.fn.getpos("'>")[2]
   local lines = s_start .. '..' .. s_end
+
   codeshot.take(curr, extension, lines, lines)
 end
 
 function codeshot.focus_selected_lines()
   local curr = vim.fn.expand('%:p')
   local extension = vim.fn.expand('%:e')
+
+  vim.cmd([[execute "normal! \<ESC>"]])
   local s_start = vim.fn.getpos("'<")[2]
   local s_end = vim.fn.getpos("'>")[2]
   -- Calculate len of lines
   -- local n_lines = math.abs(s_end[2] - s_start[2]) + 1
   local hi_lines = s_start .. '..' .. s_end
+
   codeshot.take(curr, extension, '..', hi_lines)
 end
 

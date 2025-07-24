@@ -25,6 +25,7 @@ local defaults = {
   radius = 15,
   author = '',
   author_color = '#FFFFFF',
+  filename_as_window_title = true,
   window_title = '',
   window_title_background = '',
   window_title_color = '#FFFFFF',
