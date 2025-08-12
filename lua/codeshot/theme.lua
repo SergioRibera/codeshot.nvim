@@ -11,9 +11,12 @@ function theme._gen_hl(hl)
     end
   end
 
+  local bg = hl.background or hl.bg or hl.guibg or nil
+  local fg = hl.foreground or hl.fg or hl.guifg or nil
+
   return {
-    bg = hl.background and string.format('#%06x', hl.background) or '',
-    fg = hl.foreground and string.format('#%06x', hl.foreground) or '',
+    bg = string.format('#%06x', bg) or '',
+    fg = string.format('#%06x', fg) or '',
     style = style,
   }
 end
