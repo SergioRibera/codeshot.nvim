@@ -1,5 +1,9 @@
 local theme = {}
 
+local function hex_fmt(str)
+  return string.format('#%06x', str)
+end
+
 function theme._gen_hl(hl)
   local styles = { 'underline', 'undercurl', 'underdotted', 'bold', 'italic' }
   local style = ''
@@ -12,8 +16,8 @@ function theme._gen_hl(hl)
   end
 
   return {
-    bg = hl.background and string.format('#%06x', hl.background) or '',
-    fg = hl.foreground and string.format('#%06x', hl.foreground) or '',
+    bg = hl.bg and hex_fmt(hl.bg) or hl.background and hex_fmt(hl.background) or '',
+    fg = hl.fg and hex_fmt(hl.fg) or hl.foreground and hex_fmt(hl.foreground) or '',
     style = style,
   }
 end
